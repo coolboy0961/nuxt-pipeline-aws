@@ -1,0 +1,87 @@
+{
+  "name": "my-first-nuxt-app",
+  "version": "1.0.0",
+  "description": "Nuxt.js project",
+  "author": "",
+  "private": true,
+  "scripts": {
+    "dev": "nuxt",
+    "build": "nuxt build",
+    "start": "nuxt start",
+    "generate": "nuxt generate",
+    "lint": "eslint --ext .js,.vue --ignore-path .gitignore .",
+    "precommit": "npm run lint",
+    "test": "jest",
+    "test:coverage": "jest --coverage",
+    "sonar": "sonar-scanner",
+    "browsertest:local:single": "protractor browser-test/protractor_local_conf.js",
+    "browsertest:ci:single": "protractor browser-test/protractor_ci_conf.js",
+    "browsertest:saucelabs-pc:single": "protractor browser-test/protractor_saucelabs_pc_conf.js",
+    "browsertest:saucelabs-mobile:single": "protractor browser-test/protractor_saucelabs_mobile_conf.js",
+    "deletereport:local": "rm -rf browser-test/report/local/*",
+    "deletereport:ci": "rm -rf browser-test/report/ci/*",
+    "deletereport:saucelabs-pc": "rm -rf browser-test/report/saucelabs-pc/*",
+    "deletereport:saucelabs-mobile": "rm -rf browser-test/report/saucelabs-mobile/*",
+    "browsertest:local": "run-s deletereport:local browsertest:local:single",
+    "browsertest:ci": "run-s deletereport:ci browsertest:ci:single",
+    "browsertest:saucelabs-pc": "run-s deletereport:saucelabs-pc browsertest:saucelabs-pc:single",
+    "browsertest:saucelabs-mobile": "run-s deletereport:saucelabs-mobile browsertest:saucelabs-mobile:single"
+    
+  },
+  "dependencies": {
+    "nuxt": "^2.0.0"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.7.7",
+    "@vue/test-utils": "^1.0.0-beta.30",
+    "babel-core": "^7.0.0-0",
+    "babel-eslint": "^10.0.1",
+    "babel-jest": "^24.9.0",
+    "babel-polyfill": "^6.26.0",
+    "babel-preset-vue-app": "^2.0.0",
+    "eslint": "^4.19.1",
+    "eslint-friendly-formatter": "^4.0.1",
+    "eslint-loader": "^2.1.1",
+    "eslint-plugin-vue": "^4.0.0",
+    "flush-promises": "^1.0.2",
+    "jasmine-spec-reporter": "^4.2.1",
+    "jest": "^24.9.0",
+    "jest-sonar-reporter": "^2.0.0",
+    "lodash.clonedeep": "^4.5.0",
+    "npm-run-all": "^4.1.5",
+    "protractor": "^5.4.2",
+    "protractor-beautiful-reporter": "^1.3.6",
+    "sonarqube-scanner": "^2.5.0",
+    "vue-jest": "^3.0.5"
+  },
+  "jest": {
+    "transform": {
+      "^.+\\.js$": "babel-jest",
+      ".*\\.(vue)$": "vue-jest"
+    },
+    "moduleNameMapper": {
+      "^@/(.*)$": "<rootDir>/app/$1",
+      "^~/(.*)$": "<rootDir>/app/$1",
+      "^@@/(.*)$": "<rootDir>/$1",
+      "^~~/(.*)$": "<rootDir>/$1"
+    },
+    "moduleFileExtensions": [
+      "js",
+      "json",
+      "vue"
+    ],
+    "testResultsProcessor": "jest-sonar-reporter",
+    "collectCoverageFrom": [
+      "app/**/*.{js,vue}"
+    ]
+  },
+  "babel": {
+    "env": {
+      "test": {
+        "presets": [
+          "@babel/preset-env"
+        ]
+      }
+    }
+  }
+}

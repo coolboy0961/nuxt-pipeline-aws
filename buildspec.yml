@@ -1,0 +1,40 @@
+version: 0.2
+ 
+phases:
+  install:
+    runtime-versions:
+      nodejs: 12
+    commands:
+      - echo install started on `date`
+      # Install yarn
+      - curl --silent --location https://dl.yarnpkg.com/rpm/yarn.repo | tee /etc/yum.repos.d/yarn.repo
+      - rpm --import https://dl.yarnpkg.com/rpm/pubkey.gpg
+      - yum install -y yarn
+      # Install Chrome
+      - curl https://intoli.com/install-google-chrome.sh | bash
+      # Install Japanese Fonts
+      - yum install -y ipa-gothic-fonts ipa-mincho-fonts ipa-pgothic-fonts ipa-pmincho-fonts
+  pre_build:
+    commands:
+      - echo pre_build started on `date`
+      - cd my-first-nuxt-app
+      - yarn
+      - yarn test:coverage
+      # Upload test resport to SonarQube server
+      - yarn sonar
+  build:
+    commands:
+      - echo build started on `date`
+      - yarn generate
+  post_build:
+    commands:
+      - echo post_build started on `date`
+      # Deploy HTML to S3
+      - aws s3 sync --exact-timestamps --delete dist s3://sample-web-ci-html-deploy-destination
+      - yarn browsertest:ci
+      - yarn browsertest:saucelabs-pc
+      - yarn browsertest:saucelabs-mobile
+    finally:
+      - aws s3 sync --exact-timestamps --delete browser-test/report/ci s3://sample-web-ci-browsertest-report/ci
+      - aws s3 sync --exact-timestamps --delete browser-test/report/saucelabs-pc s3://sample-web-ci-browsertest-report/saucelabs-pc
+      - aws s3 sync --exact-timestamps --delete browser-test/report/saucelabs-mobile s3://sample-web-ci-browsertest-report/saucelabs-mobile
