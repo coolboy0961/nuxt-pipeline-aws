@@ -37,7 +37,7 @@ exports.config = {
   multiCapabilities: [
     // portrait
     {
-      testobject_api_key: "E6BA9F15E7FF4B88B6A4DE7446870A52",
+      testobject_api_key: "SAMPLE_KEY",
       name: "iOS test portrait",
       browserName: "",
       platformName: "iOS",
@@ -52,7 +52,7 @@ exports.config = {
 
     // landscape
     {
-      testobject_api_key: "90569A91BB2E46CBB3716976B6C621A7",
+      testobject_api_key: "SAMPLE_KEY",
       name: "iOS test landscape",
       browserName: "",
       platformName: "iOS",
@@ -65,7 +65,7 @@ exports.config = {
       maxInstances: 25
     },
     // {
-    //   testobject_api_key: "4043E8C0CE43474A94D6D12A46AA9C46",
+    //   testobject_api_key: "SAMPLE_KEY",
     //   name: "Android test",
     //   browserName: "",
     //   platformName: "Android",

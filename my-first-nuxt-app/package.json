@@ -25,8 +25,8 @@
     "browsertest:local": "run-s deletereport:local browsertest:local:single",
     "browsertest:ci": "run-s deletereport:ci browsertest:ci:single",
     "browsertest:saucelabs-pc": "run-s deletereport:saucelabs-pc browsertest:saucelabs-pc:single",
-    "browsertest:saucelabs-mobile": "run-s deletereport:saucelabs-mobile browsertest:saucelabs-mobile:single"
-    
+    "browsertest:saucelabs-mobile": "run-s deletereport:saucelabs-mobile browsertest:saucelabs-mobile:single",
+    "start-server": "http-server ./dist --port 8081"
   },
   "dependencies": {
     "nuxt": "^2.0.0"
@@ -44,6 +44,7 @@
     "eslint-loader": "^2.1.1",
     "eslint-plugin-vue": "^4.0.0",
     "flush-promises": "^1.0.2",
+    "http-server": "^0.12.1",
     "jasmine-spec-reporter": "^4.2.1",
     "jest": "^24.9.0",
     "jest-sonar-reporter": "^2.0.0",

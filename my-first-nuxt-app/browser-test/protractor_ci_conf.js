@@ -29,7 +29,7 @@ exports.config = {
   // 動作させるspecファイルを指定
   specs: [configFilePath + "/spec/**/*spec.js"],
 
-  baseUrl: "http://sample-web-ci-html-deploy-destination.s3-website-ap-northeast-1.amazonaws.com",
+  baseUrl: "http://localtestsite:8081",
 
   // テストさせるブラウザを指定
   capabilities: {

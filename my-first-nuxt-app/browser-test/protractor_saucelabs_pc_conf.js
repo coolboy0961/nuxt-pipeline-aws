@@ -5,9 +5,6 @@ var HtmlReporter = require("protractor-beautiful-reporter");
 var SpecReporter = require("jasmine-spec-reporter").SpecReporter;
 var testUtil = require(configFilePath + "/testUtils");
 
-// test start time
-var startTime;
-
 exports.config = {
   // Testing FrameWorkにjasmineを利用
   framework: "jasmine",
@@ -30,10 +27,10 @@ exports.config = {
   specs: [configFilePath + "/spec/**/*spec.js"],
 
   baseUrl:
-    "http://sample-web-ci-html-deploy-destination.s3-website-ap-northeast-1.amazonaws.com",
+    "http://localtestsite:8081",
 
-  sauceUser: "YOUR_USERNAME",
-  sauceKey: "YOUR_ACCESS_KEY",
+  sauceUser: "SAMPLE_USER",
+  sauceKey: "SAMPLE_KEY",
   //sauceRegion: "us-west-1",
 
   onPrepare: function() {
@@ -42,121 +39,182 @@ exports.config = {
   // SauceLabsテストの多重数
   maxSessions: 1,
   multiCapabilities: [
+    // mobile
+    {
+      tunnelidentifier: "sample-saucelabs-connect-proxy",
+      browserName: "Safari",
+      platformName: "iOS",
+      platformVersion: "13.0",
+      deviceName: "iPhone XS Simulator",
+      deviceOrientation: "portrait",
+      name: "iPhone XS iOS 13 Safari portrait",
+      shardTestFiles: true,
+      maxInstances: 2
+    },
+    {
+      tunnelidentifier: "sample-saucelabs-connect-proxy",
+      browserName: "Safari",
+      platformName: "iOS",
+      platformVersion: "13.0",
+      deviceName: "iPhone XS Simulator",
+      deviceOrientation: "landscape",
+      name: "iPhone XS iOS 13 Safari landscape",
+      shardTestFiles: true,
+      maxInstances: 2
+    },
+    {
+      tunnelidentifier: "sample-saucelabs-connect-proxy",
+      browserName: "Chrome",
+      platformName: "Android",
+      platformVersion: "10",
+      deviceName: "Google Pixel 3 GoogleAPI Emulator",
+      deviceOrientation: "portrait",
+      name: "Google Pixel 3 Android 10 portrait",
+      shardTestFiles: true,
+      maxInstances: 2
+    },
+    {
+      tunnelidentifier: "sample-saucelabs-connect-proxy",
+      browserName: "Chrome",
+      platformName: "Android",
+      platformVersion: "10",
+      deviceName: "Google Pixel 3 GoogleAPI Emulator",
+      deviceOrientation: "landscape",
+      name: "Google Pixel 3 Android 10 landscape",
+      shardTestFiles: true,
+      maxInstances: 2
+    },
+
+    // pc
     // chrome
     {
+      tunnelidentifier: "sample-saucelabs-connect-proxy",
       browserName: "chrome",
       version: "latest",
       platform: "OS X 10.10",
-      name: "chrome-tests",
+      name: "OS X 10.10 Chrome",
       shardTestFiles: true,
-      maxInstances: 25
+      maxInstances: 2
     },
     {
+      tunnelidentifier: "sample-saucelabs-connect-proxy",
       browserName: "chrome",
       version: "latest",
       platform: "OS X 10.11",
-      name: "chrome-tests",
+      name: "OS X 10.11 Chrome",
       shardTestFiles: true,
-      maxInstances: 25
+      maxInstances: 2
     },
-    // {
-    //   browserName: "chrome",
-    //   version: "latest",
-    //   platform: "OS X 10.12",
-    //   name: "chrome-tests",
-    //   shardTestFiles: true,
-    //   maxInstances: 25
-    // },
-    // {
-    //   browserName: "chrome",
-    //   version: "latest",
-    //   platform: "OS X 10.13",
-    //   name: "chrome-tests",
-    //   shardTestFiles: true,
-    //   maxInstances: 25
-    // },
-    // {
-    //   browserName: "chrome",
-    //   version: "latest",
-    //   platform: "Windows 7",
-    //   name: "chrome-tests",
-    //   shardTestFiles: true,
-    //   maxInstances: 25
-    // },
-    // {
-    //   browserName: "chrome",
-    //   version: "latest",
-    //   platform: "Windows 10",
-    //   name: "chrome-tests",
-    //   shardTestFiles: true,
-    //   maxInstances: 25
-    // },
-    // // firefox
-    // {
-    //   browserName: "firefox",
-    //   version: "latest",
-    //   platform: "OS X 10.10",
-    //   name: "firefox-tests",
-    //   shardTestFiles: true,
-    //   maxInstances: 25
-    // },
-    // {
-    //   browserName: "firefox",
-    //   version: "latest",
-    //   platform: "OS X 10.11",
-    //   name: "firefox-tests",
-    //   shardTestFiles: true,
-    //   maxInstances: 25
-    // },
-    // {
-    //   browserName: "firefox",
-    //   version: "latest",
-    //   platform: "OS X 10.12",
-    //   name: "firefox-tests",
-    //   shardTestFiles: true,
-    //   maxInstances: 25
-    // },
-    // {
-    //   browserName: "firefox",
-    //   version: "latest",
-    //   platform: "OS X 10.13",
-    //   name: "firefox-tests",
-    //   shardTestFiles: true,
-    //   maxInstances: 25
-    // },
-    // {
-    //   browserName: "firefox",
-    //   version: "latest",
-    //   platform: "Windows 7",
-    //   name: "firefox-tests",
-    //   shardTestFiles: true,
-    //   maxInstances: 25
-    // },
-    // {
-    //   browserName: "firefox",
-    //   version: "latest",
-    //   platform: "Windows 10",
-    //   name: "firefox-tests",
-    //   shardTestFiles: true,
-    //   maxInstances: 25
-    // },
-    // // IE
-    // {
-    //   browserName: "internet explorer",
-    //   version: "latest",
-    //   platform: "Windows 7",
-    //   name: "ie-tests",
-    //   shardTestFiles: true,
-    //   maxInstances: 25
-    // },
-    // {
-    //   browserName: "internet explorer",
-    //   version: "latest",
-    //   platform: "Windows 10",
-    //   name: "ie-tests",
-    //   shardTestFiles: true,
-    //   maxInstances: 25
-    // },
+    {
+      tunnelidentifier: "sample-saucelabs-connect-proxy",
+      browserName: "chrome",
+      version: "latest",
+      platform: "OS X 10.12",
+      name: "OS X 10.12 Chrome",
+      shardTestFiles: true,
+      maxInstances: 2
+    },
+    {
+      tunnelidentifier: "sample-saucelabs-connect-proxy",
+      browserName: "chrome",
+      version: "latest",
+      platform: "OS X 10.13",
+      name: "OS X 10.13 Chrome",
+      shardTestFiles: true,
+      maxInstances: 2
+    },
+    {
+      tunnelidentifier: "sample-saucelabs-connect-proxy",
+      browserName: "chrome",
+      version: "latest",
+      platform: "Windows 7",
+      name: "Windows 7 Chrome",
+      shardTestFiles: true,
+      maxInstances: 2
+    },
+    {
+      tunnelidentifier: "sample-saucelabs-connect-proxy",
+      browserName: "chrome",
+      version: "latest",
+      platform: "Windows 10",
+      name: "Windows 10 Chrome",
+      shardTestFiles: true,
+      maxInstances: 2
+    },
+    // firefox
+    {
+      tunnelidentifier: "sample-saucelabs-connect-proxy",
+      browserName: "firefox",
+      version: "latest",
+      platform: "OS X 10.10",
+      name: "OS X 10.10 Firefox",
+      shardTestFiles: true,
+      maxInstances: 2
+    },
+    {
+      tunnelidentifier: "sample-saucelabs-connect-proxy",
+      browserName: "firefox",
+      version: "latest",
+      platform: "OS X 10.11",
+      name: "OS X 10.11 Firefox",
+      shardTestFiles: true,
+      maxInstances: 2
+    },
+    {
+      tunnelidentifier: "sample-saucelabs-connect-proxy",
+      browserName: "firefox",
+      version: "latest",
+      platform: "OS X 10.12",
+      name: "OS X 10.12 Firefox",
+      shardTestFiles: true,
+      maxInstances: 2
+    },
+    {
+      tunnelidentifier: "sample-saucelabs-connect-proxy",
+      browserName: "firefox",
+      version: "latest",
+      platform: "OS X 10.13",
+      name: "OS X 10.13 Firefox",
+      shardTestFiles: true,
+      maxInstances: 2
+    },
+    {
+      tunnelidentifier: "sample-saucelabs-connect-proxy",
+      browserName: "firefox",
+      version: "latest",
+      platform: "Windows 7",
+      name: "Windows 7 Firefox",
+      shardTestFiles: true,
+      maxInstances: 2
+    },
+    {
+      tunnelidentifier: "sample-saucelabs-connect-proxy",
+      browserName: "firefox",
+      version: "latest",
+      platform: "Windows 10",
+      name: "Windows 10 Firefox",
+      shardTestFiles: true,
+      maxInstances: 2
+    },
+    // IE
+    {
+      tunnelidentifier: "sample-saucelabs-connect-proxy",
+      browserName: "internet explorer",
+      version: "latest",
+      platform: "Windows 7",
+      name: "Windows 7 IE",
+      shardTestFiles: true,
+      maxInstances: 2
+    },
+    {
+      tunnelidentifier: "sample-saucelabs-connect-proxy",
+      browserName: "internet explorer",
+      version: "latest",
+      platform: "Windows 10",
+      name: "Windows 10 IE",
+      shardTestFiles: true,
+      maxInstances: 2
+    },
   ],
   // Options to be passed to Jasmine-node.
   jasmineNodeOpts: {

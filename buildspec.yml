@@ -6,6 +6,10 @@ phases:
       nodejs: 12
     commands:
       - echo install started on `date`
+      # Start Saucelabs connect proxy
+      - cd my-first-nuxt-app/browser-test/sc-4.5.4-linux/bin
+      - ./sc -u SAMPLE_USER -k SAMPLE_KEY -i sample-saucelabs-connect-proxy &
+      - cd ../../../../
       # Install yarn
       - curl --silent --location https://dl.yarnpkg.com/rpm/yarn.repo | tee /etc/yum.repos.d/yarn.repo
       - rpm --import https://dl.yarnpkg.com/rpm/pubkey.gpg
@@ -29,12 +33,15 @@ phases:
   post_build:
     commands:
       - echo post_build started on `date`
+      - echo "127.0.0.1   localtestsite" >> /etc/hosts
+      # Start http-server
+      - yarn start-server &
       # Deploy HTML to S3
-      - aws s3 sync --exact-timestamps --delete dist s3://sample-web-ci-html-deploy-destination
+      # - aws s3 sync --exact-timestamps --delete dist s3://sample-web-ci-html-deploy-destination
       - yarn browsertest:ci
       - yarn browsertest:saucelabs-pc
-      - yarn browsertest:saucelabs-mobile
+      # - yarn browsertest:saucelabs-mobile
     finally:
       - aws s3 sync --exact-timestamps --delete browser-test/report/ci s3://sample-web-ci-browsertest-report/ci
       - aws s3 sync --exact-timestamps --delete browser-test/report/saucelabs-pc s3://sample-web-ci-browsertest-report/saucelabs-pc
-      - aws s3 sync --exact-timestamps --delete browser-test/report/saucelabs-mobile s3://sample-web-ci-browsertest-report/saucelabs-mobile
+      # - aws s3 sync --exact-timestamps --delete browser-test/report/saucelabs-mobile s3://sample-web-ci-browsertest-report/saucelabs-mobile
